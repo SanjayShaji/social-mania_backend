@@ -28,6 +28,20 @@ export const getUser = async(req, res)=>{
     }
 }
 
+export const getSearchUsers = async(req, res)=>{
+    try {
+        console.log("reached users");
+        const { searchName} = req.params
+        console.log(searchName);
+        const users = await User.find({firstName: {$regex: searchName, $options: "i"}})
+        console.log(users);
+        res.status(200).json({users: users})
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({error: error.message})
+    }
+}
+
 export const getReportedPosts = async(req, res)=>{
     try {
         console.log("reached reported posts");

@@ -1,6 +1,6 @@
 import Post from "../../models/Post.js"
 import User from "../../models/User.js";
-import { Comment, ReplyComment } from "../../models/Comment.js"
+import { Comment } from "../../models/Comment.js"
 import { v2 as cloudinary } from 'cloudinary'
 import { v4 } from 'uuid'
 import dotenv from "dotenv";
@@ -16,6 +16,7 @@ cloudinary.config({
     cloud_name: cloud_name,
     api_key: api_key,
     api_secret: api_secret,
+    secure: true
 });
 
 const opts = {
@@ -67,6 +68,7 @@ export const createPost = async (req, res) => {
 export const getPosts = async (req, res) => {
     try {
         console.log("reacheddd");
+        // console.log(req.body)
         console.log(req.query)
         const limit = parseInt(req.query.limit)
         console.log("reacheddd");
@@ -79,7 +81,7 @@ export const getPosts = async (req, res) => {
         // console.log(count);
         // console.log("count");
 
-        res.status(201).json({
+        res.status(200).json({
             post: post,
             size: size
         })
@@ -90,9 +92,9 @@ export const getPosts = async (req, res) => {
 
 export const getUserImagePosts = async(req, res)=>{
     try {
-        console.log("reached posts images");
+        console.log("reached post images");
         const {id} = req.params
-        console.log(req.params);
+        // console.log(req.query);
         const posts = await Post.find({poster: id, files: { $regex: /\.(jpg|jpeg|png)$/ }}).sort('-createdAt').lean();
         console.log(posts);
         res.status(200).json(posts)
@@ -145,7 +147,7 @@ export const getUserPosts = async (req, res) => {
         // console.log(count);
         // console.log("count");
 
-        res.status(201).json({
+        res.status(200).json({
             post: post,
             size: size
         })

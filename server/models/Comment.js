@@ -39,33 +39,33 @@ const CommentSchema = mongoose.Schema({
 {timestamps: true}
 )
 
-const ReplyCommentSchema = mongoose.Schema({
-    comment: {
-        type: String,
-        required: true
-    },
-    post:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'post',
-        required:false
-    },
-    parentComment: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
-        required: true
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    },
-    likes: {
-        type: Map,
-        of: Boolean,
-        default: {}
-    }
-},
-{timestamps: true}
-)
+// const ReplyCommentSchema = mongoose.Schema({
+//     comment: {
+//         type: String,
+//         required: true
+//     },
+//     post:{
+//         type:mongoose.Schema.Types.ObjectId,
+//         ref:'post',
+//         required:false
+//     },
+//     parentComment: {
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref: "Comment",
+//         required: true
+//     },
+//     user: {
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref: "User"
+//     },
+//     likes: {
+//         type: Map,
+//         of: Boolean,
+//         default: {}
+//     }
+// },
+// {timestamps: true}
+// )
 
 
 // module.exports = {
@@ -74,14 +74,14 @@ const ReplyCommentSchema = mongoose.Schema({
 // }
 
 
-CommentSchema.pre('remove', async function(next) {
-    try {
-        await mongoose.model('ReplyComment').deleteMany({ parentComment: this._id });
-        next();
-    } catch (err) {
-        next(err);
-    }
-});
+// CommentSchema.pre('remove', async function(next) {
+//     try {
+//         await mongoose.model('ReplyComment').deleteMany({ parentComment: this._id });
+//         next();
+//     } catch (err) {
+//         next(err);
+//     }
+// });
 
 // ReplyCommentSchema.pre('remove', async function(next) {
 //     try {
@@ -94,7 +94,3 @@ CommentSchema.pre('remove', async function(next) {
 
 
 export const Comment = mongoose.model('Comment', CommentSchema);
-export const ReplyComment = mongoose.model('ReplyComment', ReplyCommentSchema);
-
-// const comment = await Post.findById(postId);
-// await post.remove();

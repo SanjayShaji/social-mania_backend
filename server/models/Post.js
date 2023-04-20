@@ -1,5 +1,5 @@
 import mongoose, { Schema, Types, model } from 'mongoose';
-import { Comment, ReplyComment } from './Comment.js';
+import { Comment } from './Comment.js';
 // const commentSchema = require('./Comment');
 
 const PostSchema = Schema({
@@ -63,14 +63,6 @@ PostSchema.pre('remove', async function (next) {
   }
 });
 
-PostSchema.pre('remove', async function (next) {
-  try {
-    await ReplyComment.deleteMany({ post: this._id });
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
 
 const Post = mongoose.model("Post", PostSchema);
 export default Post;
